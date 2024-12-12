@@ -1,0 +1,91 @@
+{% extends "core/base.html" %}
+
+{% block title %}Check-Out{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+
+<section>
+<div class="col-lg-12 container">
+	<div class="order_box">
+		<h2>Your Order</h2>
+		<ul class="list">
+			<li>
+				<a href="{% url 'core:cart' %}">Product<span>Total</span></a>
+			</li>
+			{% for item in cart_items %}
+				<li>
+					<a href="{% url 'core:cart' %}">{{ item.product.name | truncatechars:18 }}
+						<span class="middle">x {{ item.quantity }}</span>
+						<span class="last">{{ item.total }}</span>
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+		<ul class="list list_2">
+			<li>
+				<a href="{% url 'core:cart' %}">Subtotal <span>{{ subtotal }}</span></a>
+			</li>
+			<li>
+				<a href="{% url 'core:cart' %}">Delivery Cost <span>{{ deliver_cost }}</span></a>
+			</li>
+			<li>
+				<a href="{% url 'core:cart' %}">Total <span>{{ total }}</span></a>
+			</li>
+		</ul>
+
+		<div class="creat_account checkout-cap">
+			<input type="checkbox" id="f-option8" name="selector" checked />
+			<label for="f-option8">I’ve read and accept the <a href="{% url 'core:terms&policy' %}">terms & conditions*</a>
+			</label>
+		</div>
+		<div id="paypal-button-container"></div>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+</section>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AfVDYgZKkKZ3QUtF8S07BLEOHROLcze_cXxRz3Nvs4UFSvUWZiJ51M8S6O16-Xnf_cG_pXTR_XRwzSe0&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo" data-sdk-integration-source="developer-studio"></script>
+
+<script>
+	paypal.Buttons({
+		style: {
+			shape: "rect",
+			layout: "vertical",
+			color: "gold",
+			label: "paypal",
+		},
+		createOrder: function (data, actions) {
+			return fetch('/create-order/', {
+				method: 'post',
+				headers: {
+					'content-type': 'application/json'
+				},
+				body: JSON.stringify({
+					amount: '{{ total }}' // Replace with the actual amount
+				})
+			}).then(function (res) {
+				return res.json();
+			}).then(function (data) {
+				return data.id; // Use the key sent from your server
+			});
+		},
+		onApprove: function (data, actions) {
+			return fetch('/capture-order/' + data.orderID + '/', {
+				method: 'post',
+				headers: {
+					'content-type': 'application/json'
+				}
+			}).then(function (res) {
+				return res.json();
+			}).then(function (details) {
+				alert('Transaction completed by ' + details.payer.name.given_name);
+			});
+		}
+	}).render('#paypal-button-container');
+</script>
+
+{% endblock %}

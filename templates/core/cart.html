@@ -1,0 +1,132 @@
+{% extends "core/base.html" %}
+
+{% block title %}Cart{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="slider-area">
+          <div class="slider-height2 slider-bg5 d-flex align-items-center justify-content-center">
+            <div class="hero-caption hero-caption2">
+              <h2>Cart</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<section class="cart_area section-padding">
+<div class="container">
+    <div class="cart_inner">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <small>{{ message }}</small>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if cart_items %}
+                        <form action="{% url 'core:cart_action' %}" method="post" id="cart">
+                            {% csrf_token %}
+                            {% for cart_item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img src="{{ cart_item.product.image.url }}" alt />
+                                            </div>
+                                            <div class="media-body">
+                                                <p>{{ cart_item.product.name }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>{{ cart_item.product.price }}</h5>
+                                    </td>
+                                    <td>
+                                        <div class="product_count">
+                                            <input class="input-number" type="number" name="quantity_{{ cart_item.id }}" value="{{ cart_item.quantity }}" min="1" step="1">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h5>{{ cart_item.total }}</h5>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="del_id" value="{{ cart_item.id }}">
+                                        <button type="submit" name="action" value="delete" class="btn btn-z"><i class="fas fa-trash text-dark ms-3"></i></button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </form>
+                    {% else %}
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    
+                                </div>
+                            </td>
+                            <td>
+                                <small class="text-muted">Your cart is empty</small>
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                
+                            </td>
+                    </tr>
+                    {% endif %}
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <h5>Subtotal</h5>
+                        </td>
+                        <td>
+                            <h5>{{ subtotal }}</h5>
+                        </td>
+                    </tr>
+
+                    <tr class="bottom_button">
+                        <td>
+                            <button type="submit" name="action" value="update" class="btn" form="cart">Update Cart</button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <div class="cupon_text float-right">
+                                <button type="submit" name="action" value="clear" class="btn" form="cart">Close Coupon</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <div class="checkout_btn_inner float-right">
+                    <a class="btn" href="{% url 'core:index' %}">Continue Shopping</a>
+                    <a class="btn checkout_btn" href=" {% url 'core:checkout' %} ">Proceed to checkout</a>
+                </div>
+            </table>
+        </div>
+    </div>
+</div>
+</section>
+
+{% endblock content %}

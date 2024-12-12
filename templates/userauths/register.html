@@ -1,0 +1,71 @@
+{% extends "userauths/base.html" %}
+
+{% block title %} Register {% endblock title %}
+
+{% block content %}
+    <form action=" {% url 'userauths:register' %} " method="post">
+        {% csrf_token %}
+
+        <div class="register-form-area">
+            <div class="register-form text-center">
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="h-25 alert alert-{{ message.tags }}">
+                            <small>{{ message }}</small>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <!-- Javascript for disappearing alert -->
+                <script>
+                    setTimeout(()=>{
+                      $(".alert").alert("close")
+                    }, 3000)
+                </script>
+
+                <div class="register-heading">
+                    <span>Sign Up</span>
+                    <p>Create your account to get full access</p>
+                </div>
+    
+                <div class="input-box">
+                    <div class="single-input-fields">
+                        <label>Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="single-input-fields">
+                        <label>Email Address</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="single-input-fields">
+                        <label>Password</label>
+                        {{ form.password1 }}
+                    </div>
+                    <div class="single-input-fields">
+                        <label>Confirm Password</label>
+                        {{ form.password2 }}
+                    </div>
+                    <input 
+                        class="form-check-input" type="radio" 
+                        name="is_vendor" id="flexRadioDefault1" value="false" checked>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Customer
+                    </label>
+                    &nbsp;
+                    <input 
+                        class="form-check-input" type="radio" 
+                        name="is_vendor" id="flexRadioDefault2" value="true">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Vendor
+                    </label>
+                </div>
+    
+                <div class="register-footer">
+                    <p> Already have an account? <a href="{% url 'userauths:login' %}"> Login</a> here</p>
+                    <button class="submit-btn3" type="submit">Sign Up &raquo</button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="next" value="{% url 'core:index' %}">
+    </form>
+{% endblock content %}

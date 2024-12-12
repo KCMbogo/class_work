@@ -1,0 +1,168 @@
+{% extends "core/base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+  <div class="slider-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="slider-active dot-style">
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="our-client section-padding best-selling">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-xl-5 col-lg-5 col-md-12">
+          <div class="section-tittle  mb-40">
+            <h2>Our Products</h2>
+          </div>
+        </div>
+        <div class="col-xl-7 col-lg-7 col-md-12">
+          <div class="nav-button mb-40">
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-link active" id="nav-one-tab" data-bs-toggle="tab" href="#nav-one" role="tab"
+                  aria-controls="nav-one" aria-selected="true">All
+                </a>
+                <a class="nav-link" id="nav-two-tab" data-bs-toggle="tab" href="#nav-two" role="tab"
+                  aria-controls="nav-two" aria-selected="false">Top Rated
+                </a>
+                <a class="nav-link" id="nav-three-tab" data-bs-toggle="tab" href="#nav-three" role="tab"
+                  aria-controls="nav-three" aria-selected="false"> < $100
+                </a>
+                <a class="nav-link" id="nav-four-tab" data-bs-toggle="tab" href="#nav-four" role="tab"
+                  aria-controls="nav-four" aria-selected="false"> > $100
+                </a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="tab-content" id="nav-tabContent">
+        
+        <div class="tab-pane fade show active" id="nav-one" role="tabpanel" aria-labelledby="nav-one-tab">
+          <div class="row">
+            {% for product in products %}
+              <div class="col-12 col-md-3 mb-4">
+                  <div class="card h-100 w-100">
+                    <div class="card-head">
+                      <a href="{% url 'core:product_details' product.id %}">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="..." style="max-width: 600px; max-height: 200px; ">
+                      </a>
+                    </div>
+                    <div class="card-body">
+                      <ul class="list-unstyled d-flex justify-content-between">
+                        <li class="text-muted text-right">{{ product.price }}</li>
+                      </ul> 
+                      <a href="{% url 'core:product_details' product.id %}" class="text-decoration-none text-dark"><strong>{{ product.name }}</strong></a>
+                      <p class="card-text">
+                        <small>{{ product.description }}</small>
+                      </p>
+                      <p class="text-muted">Kariakoo, Dar es salaam</p>
+                    </div>
+                  </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="nav-two" role="tabpanel" aria-labelledby="nav-two-tab">
+          <div class="row">
+            {% for product in products %}
+              <div class="col-12 col-md-3 mb-4">
+                <div class="card h-100 w-100">
+                  <div class="card-head">
+                    <a href="{% url 'core:product_details' product.id %}">
+                      <img src="{{ product.image.url }}" class="card-img-top" alt="..." style="max-width: 600px; max-height: 200px; ">
+                    </a>
+                  </div>
+                  <div class="card-body">
+                    <ul class="list-unstyled d-flex justify-content-between">
+                      <li class="text-muted text-right">{{ product.price }}</li>
+                    </ul> 
+                    <a href="{% url 'core:product_details' product.id %}" class="text-decoration-none text-dark"><strong>{{ product.name }}</strong></a>
+                    <p class="card-text">
+                      <small>{{ product.description }}</small>
+                    </p>
+                    <p class="text-muted">Kariakoo, Dar es salaam</p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="nav-three" role="tabpanel" aria-labelledby="nav-three-tab">
+          <div class="row">
+            {% for product in products %}
+              {% if product.price < comparison_amount %}
+                <div class="col-12 col-md-3 mb-4">
+                  <div class="card h-100 w-100">
+                    <div class="card-head">
+                      <a href="{% url 'core:product_details' product.id %}">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="..." style="max-width: 600px; max-height: 200px; ">
+                      </a>
+                    </div>
+                    <div class="card-body">
+                      <ul class="list-unstyled d-flex justify-content-between">
+                        <li class="text-muted text-right">{{ product.price }}</li>
+                      </ul> 
+                      <a href="{% url 'core:product_details' product.id %}" class="text-decoration-none text-dark"><strong>{{ product.name }}</strong></a>
+                      <p class="card-text">
+                        <small>{{ product.description }}</small>
+                      </p>
+                      <p class="text-muted">Kariakoo, Dar es salaam</p>
+                    </div>
+                    </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="nav-four" role="tabpanel" aria-labelledby="nav-four-tab">
+          <div class="row">
+            {% for product in products %}
+              {% if product.price >= comparison_amount %}
+                <div class="col-12 col-md-3 mb-4">
+                  <div class="card h-100 w-100">
+                    <div class="card-head">
+                      <a href="{% url 'core:product_details' product.id %}">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="..." style="max-width: 600px; max-height: 200px; ">
+                      </a>
+                    </div>
+                    <div class="card-body">
+                      <ul class="list-unstyled d-flex justify-content-between">
+                        <li class="text-muted text-right">{{ product.price }}</li>
+                      </ul> 
+                      <a href="{% url 'core:product_details' product.id %}" class="text-decoration-none text-dark"><strong>{{ product.name }}</strong></a>
+                      <p class="card-text">
+                        <small>{{ product.description }}</small>
+                      </p>
+                      <p class="text-muted">Kariakoo, Dar es salaam</p>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %} 
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content%}
+
+  

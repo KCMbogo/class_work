@@ -1,0 +1,55 @@
+{% extends "userauths/base.html" %}
+
+{% block title %} Login {% endblock title %}
+
+{% block content %}
+
+    <form action=" {% url 'userauths:login' %} " method="post">
+        {% csrf_token %}
+
+        <div class="login-form-area">
+            <div class="login-form">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="login-heading alert alert-{{ message.tags }}">
+                            <small>{{ message }}</small>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <!-- Javascript for disappearing alert -->
+                <script>
+                    setTimeout(()=>{
+                      $(".alert").alert("close")
+                    }, 3000)
+                </script>
+                
+                <div class="login-heading">
+                    <span>Login</span>
+                    <p>Enter Login details to get access</p>
+                </div>
+
+                <div class="input-box">
+                    <div class="single-input-fields">
+                        <label>Email Address</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="single-input-fields">
+                        <label>Password</label>
+                        {{ form.password }}
+                    </div>
+                    <div class="single-input-fields login-check">
+                        <input type="checkbox" id="fruit1" name="keep-log">
+                        <label for="fruit1">Keep me logged in</label>
+                        <a href="#" class="f-right">Forgot Password?</a>
+                    </div>
+                </div>
+
+                <div class="login-footer">
+                    <p>Don’t have an account? <a href="{% url 'userauths:register' %}">Sign Up</a> here</p>
+                    <button class="submit-btn3" type="submit">Login</button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="next" value="{% url 'core:index' %}">
+    </form>
+{% endblock content %}

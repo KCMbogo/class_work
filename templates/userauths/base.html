@@ -1,0 +1,137 @@
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>G-One Shop - {%block title%}{% endblock %}</title>
+    <meta name="description" content>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/icon/favicon.png'%}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slicknav.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/price_rangs.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <script nonce="c44bf35f-3362-43e7-bf1a-4a9cb6d4122c">
+        try {
+            (function (w, d) {
+                ! function (kL, kM, kN, kO) {
+                    kL[kN] = kL[kN] || {};
+                    kL[kN].executed = [];
+                    kL.zaraz = {
+                        deferred: [],
+                        listeners: []
+                    };
+                    kL.zaraz.q = [];
+                    kL.zaraz._f = function (kP) {
+                        return async function () {
+                            var kQ = Array.prototype.slice.call(arguments);
+                            kL.zaraz.q.push({
+                                m: kP,
+                                a: kQ
+                            })
+                        }
+                    };
+                    for (const kR of ["track", "set", "debug"]) kL.zaraz[kR] = kL.zaraz._f(kR);
+                    kL.zaraz.init = () => {
+                        var kS = kM.getElementsByTagName(kO)[0],
+                            kT = kM.createElement(kO),
+                            kU = kM.getElementsByTagName("title")[0];
+                        kU && (kL[kN].t = kM.getElementsByTagName("title")[0].text);
+                        kL[kN].x = Math.random();
+                        kL[kN].w = kL.screen.width;
+                        kL[kN].h = kL.screen.height;
+                        kL[kN].j = kL.innerHeight;
+                        kL[kN].e = kL.innerWidth;
+                        kL[kN].l = kL.location.href;
+                        kL[kN].r = kM.referrer;
+                        kL[kN].k = kL.screen.colorDepth;
+                        kL[kN].n = kM.characterSet;
+                        kL[kN].o = (new Date).getTimezoneOffset();
+                        if (kL.dataLayer)
+                            for (const kY of Object.entries(Object.entries(dataLayer).reduce(((kZ, k$) => ({
+                                    ...kZ[1],
+                                    ...k$[1]
+                                })), {}))) zaraz.set(kY[0], kY[1], {
+                                scope: "page"
+                            });
+                        kL[kN].q = [];
+                        for (; kL.zaraz.q.length;) {
+                            const la = kL.zaraz.q.shift();
+                            kL[kN].q.push(la)
+                        }
+                        kT.defer = !0;
+                        for (const lb of [localStorage, sessionStorage]) Object.keys(lb || {}).filter((ld => ld
+                            .startsWith("_zaraz_"))).forEach((lc => {
+                            try {
+                                kL[kN]["z_" + lc.slice(7)] = JSON.parse(lb.getItem(lc))
+                            } catch {
+                                kL[kN]["z_" + lc.slice(7)] = lb.getItem(lc)
+                            }
+                        }));
+                        kT.referrerPolicy = "origin";
+                        kT.src = "../../cdn-cgi/zaraz/sd0d9.js?z=" + btoa(encodeURIComponent(JSON.stringify(kL[
+                            kN])));
+                        kS.parentNode.insertBefore(kT, kS)
+                    };
+                    ["complete", "interactive"].includes(kM.readyState) ? zaraz.init() : kL.addEventListener(
+                        "DOMContentLoaded", zaraz.init)
+                }(w, d, "zarazData", "script");
+            })(window, document)
+        } catch (e) {
+            throw fetch("/cdn-cgi/zaraz/t"), e;
+        };
+    </script>
+</head>
+
+<body>
+
+    <main class="login-bg">
+
+        {% block content %}{% endblock content %}
+
+    </main>
+
+
+    <script src="{% static 'assets/js/vendor/modernizr-3.5.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/slick.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'assets/js/waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/price_rangs.js' %}"></script>
+
+    <script src="{% static 'assets/js/contact.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.form.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'assets/js/mail-script.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+
+    <script src="{% static 'assets/js/plugins.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script defer
+        src="{% static '../../../static.cloudflareinsights.com/beacon.min.js/v55bfa2fee65d44688e90c00735ed189a1713218998793' %}"
+        integrity="sha512-FIKRFRxgD20moAo96hkZQy/5QojZDAbyx0mQ17jEGHCJc/vi0G2HXLtofwD7Q3NmivvP9at5EVgbRqOaOQb+Rg=="
+        data-cf-beacon='{"rayId":"8766ca96cbe5051d","version":"2024.3.0","token":"cd0b4b3a733644fc843ef0b185f98241"}'
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

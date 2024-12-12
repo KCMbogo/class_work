@@ -1,0 +1,153 @@
+{% extends "core/base.html" %}
+
+{% block title %}Check-Out{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="slider-area">
+                <div class="slider-height2 slider-bg5 d-flex align-items-center justify-content-center">
+                    <div class="hero-caption hero-caption2">
+                        <h2>Check-Out</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="checkout_area section-padding">
+    <div class="container">
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3>Billing Details</h3>
+                    <form class="row contact_form" action="{% url 'core:checkout' %}" method="post">
+                        {% csrf_token %}
+                        <div class="col-md-6 form-group p_star">
+                            <input type="text" class="form-control" id="number" name="phone_number" placeholder="Phone number" />
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="company" name="company" placeholder="Company name" />
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <select class="country_select form-control" name="country">
+                                <option value="tanzania">Tanzania</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <input type="text" class="form-control" id="add1" name="address" placeholder="Street Address" />
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <input type="text" class="form-control" id="city" name="city" placeholder="Town/City"/>
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <input type="text" class="form-control" id="district" name="district" placeholder="District"/>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" />
+                        </div>
+                        <span><b>Include Delivery:</b></span>
+                        <div class="form-check col-md-12">
+                            <input value="on" class="form-check-input" type="radio" name="deliver" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                On
+                            </label>
+                        </div>
+                        <div class="form-check col-md-12 mb-3">
+                            <input value="off" class="form-check-input" type="radio" name="deliver" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Off
+                            </label>
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <button type="submit" class="btn btn-lg" name="submit" value="Place Order">Place Order</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4">
+                    <div class="order_box">
+                        <h2>Your Order</h2>
+                        <ul class="list">
+                            <li>
+                                <a href="{% url 'core:cart' %}">Product<span>Total</span></a>
+                            </li>
+                            {% for item in cart_items %}
+                                <li>
+                                    <a href="{% url 'core:cart' %}">{{ item.product.name | truncatechars:18 }}
+                                        <span class="middle">x {{ item.quantity }}</span>
+                                        <span class="last">{{ item.total }}</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <ul class="list list_2">
+                            <li>
+                                <a href="{% url 'core:cart' %}">Subtotal <span>{{ subtotal }}</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'core:cart' %}">Delivery Cost <span>{{ deliver_cost }}</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'core:cart' %}">Total <span>{{ total }}</span></a>
+                            </li>
+                        </ul>
+
+                        <div class="creat_account checkout-cap">
+                            <input type="checkbox" id="f-option8" name="selector" checked/>
+                            <label for="f-option8">I’ve read and accept the <a href="{% url 'core:terms&policy' %}">terms & conditions*</a> </label>
+                        </div>
+                        <div id="paypal-button-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AfVDYgZKkKZ3QUtF8S07BLEOHROLcze_cXxRz3Nvs4UFSvUWZiJ51M8S6O16-Xnf_cG_pXTR_XRwzSe0&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo" data-sdk-integration-source="developer-studio"></script>
+
+<script>
+    paypal.Buttons({
+        style: {
+            shape: "rect",
+            layout: "vertical",
+            color: "gold",
+            label: "paypal",
+        },
+        createOrder: function(data, actions) {
+            return fetch('/create-order/', {
+                method: 'post',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: '{{ total }}'  // Replace with the actual amount
+                })
+            }).then(function(res) {
+                return res.json();
+            }).then(function(data) {
+                return data.id; // Use the key sent from your server
+            });
+        },
+        onApprove: function(data, actions) {
+            return fetch('/capture-order/' + data.orderID + '/', {
+                method: 'post',
+                headers: {
+                    'content-type': 'application/json'
+                }
+            }).then(function(res) {
+                return res.json();
+            }).then(function(details) {
+                alert('Transaction completed by ' + details.payer.name.given_name);
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+
+{% endblock %}
