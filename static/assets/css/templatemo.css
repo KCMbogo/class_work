@@ -1,0 +1,26 @@
+
+/* Product */
+.product-wap { box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.10);}
+.product-wap .product-color-dot.color-dot-red { background:#f71515;}
+.product-wap .product-color-dot.color-dot-blue { background:#6db4fe;}
+.product-wap .product-color-dot.color-dot-black { background:#000000;}
+.product-wap .product-color-dot.color-dot-light { background:#e0e0e0;}
+.product-wap .product-color-dot.color-dot-green { background:#0bff7e;}
+.card.product-wap .card .product-overlay {
+  background: rgba(0,0,0,.2);
+  visibility: hidden;
+  opacity: 0;
+  transition: .3s;
+}
+.card.product-wap:hover .card .product-overlay {
+  visibility: visible;
+  opacity: 1;
+}
+.card.product-wap a { color: #000;}
+#carousel-related-product .slick-slide:focus { outline: none !important;}
+#carousel-related-product .slick-dots li button:before {
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+
